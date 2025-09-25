@@ -6,6 +6,10 @@ public class App {
     private static final Scanner scanner = new Scanner(System.in);
     private static final String palavra = getPalavraAleatoria().toLowerCase();
     private static final String palavraLimpa = limpaInput(palavra).toLowerCase();
+    public static final String GREEN = "\033[0;32m";
+    public static final String YELLOW = "\033[0;33m";
+    public static final String RESET = "\033[0m";
+    public static final String RED = "\033[0;31m";
 
     public static void main(String[] args) {
         System.out.println("Palavra sorteada: " + palavraLimpa);
@@ -15,10 +19,13 @@ public class App {
             if(result) {
                 System.out.println("Você acertou a palavra: "+palavra);
                 break;
-            }else {
-                System.out.println("Errouuuu");
+            } else {
+                if(i==5) {
+                    System.out.println("\nVocê perdeu.");
+                }
             }    
         }
+        
         scanner.close();
     }
 
@@ -26,8 +33,8 @@ public class App {
         boolean palavraValida = false;
         String palavraEscolhida;
 
-        do{
-            System.out.println("Digite a palavra:");
+        do {
+            System.out.println("\nDigite a palavra:");
             palavraEscolhida = scanner.nextLine();
             palavraEscolhida = limpaInput(palavraEscolhida);
 
@@ -46,7 +53,15 @@ public class App {
 
         if(palavraEscolhida.equals(palavraLimpa)) {
             return true;
-        }else {
+        } else {
+            for(int i=0;i<palavraEscolhida.length();i++){
+                if(palavraLimpa.contains(String.valueOf(palavraEscolhida.charAt(i)))){
+                    // Todo: verificar se a letra ta no lugar correto, ai sim fica verde, se não amarelo
+                    System.out.print(GREEN + " " + String.valueOf(palavraEscolhida.charAt(i)) + RESET);
+                } else {
+                    System.out.print(RED + " " + String.valueOf(palavraEscolhida.charAt(i)) + RESET);
+                }
+            }
             return false;
         }
     }
@@ -55,7 +70,7 @@ public class App {
         for (String palavraDicionario : WordleDictionary.WORDS) {
             String palavraDicionarioLimpa = limpaInput(palavraDicionario);
             
-            if (palavraDicionarioLimpa.equals(palavraLimpa)) {
+            if (palavraDicionarioLimpa.equals(palavra)) {
                 return true;
             }
         }
