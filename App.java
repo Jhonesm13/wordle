@@ -12,8 +12,6 @@ public class App {
     public static final String RED = "\033[0;31m";
 
     public static void main(String[] args) {
-        System.out.println("Palavra sorteada: " + palavraLimpa);
-
         for(int i=0;i<6;i++){
             Boolean result = descobrePalavra();
             if(result) {
@@ -21,7 +19,7 @@ public class App {
                 break;
             } else {
                 if(i==5) {
-                    System.out.println("\nVocê perdeu.");
+                    System.out.println("\nVocê perdeu. A palavra era: " + palavraLimpa);
                 }
             }    
         }
@@ -54,15 +52,22 @@ public class App {
         if(palavraEscolhida.equals(palavraLimpa)) {
             return true;
         } else {
-            for(int i=0;i<palavraEscolhida.length();i++){
-                if(palavraLimpa.contains(String.valueOf(palavraEscolhida.charAt(i)))){
-                    // Todo: verificar se a letra ta no lugar correto, ai sim fica verde, se não amarelo
-                    System.out.print(GREEN + " " + String.valueOf(palavraEscolhida.charAt(i)) + RESET);
-                } else {
-                    System.out.print(RED + " " + String.valueOf(palavraEscolhida.charAt(i)) + RESET);
-                }
-            }
+            verifificaLetra(palavraEscolhida, palavraLimpa);
             return false;
+        }
+    }
+
+    public static void verifificaLetra(String palavraEscolhida, String palavraLimpa){
+        for (int i = 0; i < palavraEscolhida.length(); i++) {
+            char letra = palavraEscolhida.charAt(i);
+
+            if (letra == palavraLimpa.charAt(i)) {
+                System.out.print(GREEN + " " + letra + RESET);
+            } else if (palavraLimpa.contains(String.valueOf(letra))) {
+                System.out.print(YELLOW + " " + letra + RESET);
+            } else {
+                System.out.print(RED + " " + letra + RESET);
+            }
         }
     }
 
